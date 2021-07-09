@@ -921,7 +921,7 @@ void Decoration::paintFrameBackground(QPainter *painter, const QRect &repaintReg
     painter->fillRect(rect(), Qt::transparent);
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setPen(Qt::NoPen);
-    painter->setBrush(borderColor());
+    painter->setBrush(titleBarBackgroundColor());
     painter->setClipRect(0, borderTop(), size().width(), size().height() - borderTop(), Qt::IntersectClip);
     painter->drawRect(rect());
 
@@ -1092,7 +1092,7 @@ void Decoration::paintOutline(QPainter *painter, const QRect &repaintRegion) con
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setBrush(Qt::NoBrush);
-    QColor outlineColor(titleBarForegroundColor());
+    QColor outlineColor(borderColor());
     outlineColor.setAlphaF(0.25);
     painter->setPen(outlineColor);
     painter->drawRect( rect().adjusted( 0, 0, -1, -1 ) );
