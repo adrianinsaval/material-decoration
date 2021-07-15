@@ -169,7 +169,7 @@ Decoration::~Decoration()
 
 QRect Decoration::titleBarRect() const
 {
-    return QRect(0, 0, size().width(), titleBarHeight());
+    return QRect(0, 0, size().width() + 2*sideBorderSize(), titleBarHeight());
 }
 
 QRect Decoration::centerRect() const
