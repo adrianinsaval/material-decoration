@@ -47,6 +47,8 @@
 #include <xcb/xcb.h>
 #include <QX11Info>
 
+//C++
+#include <cmath>
 
 namespace Material
 {
@@ -1088,14 +1090,19 @@ void Decoration::paintOutline(QPainter *painter, const QRect &repaintRegion) con
 {
     Q_UNUSED(repaintRegion)
 
+    const int penWidth = ceil(0.5*(settings()->smallSpacing()));
+    const int offsetTL = floor(penWidth*0.5);
+    const int offsetBR = ceil(penWidth*0.5);
     // Simple 1px border outline
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setBrush(Qt::NoBrush);
     QColor outlineColor(borderColor());
     outlineColor.setAlphaF(0.25);
-    painter->setPen(outlineColor);
-    painter->drawRect( rect().adjusted( 0, 0, -1, -1 ) );
+    QPen outlinePen(outlineColor);
+    outlinePen.setWidth(penWidth);
+    painter->setPen(outlinePen);
+    painter->drawRect( rect().adjusted(offsetTL , offsetTL, -offsetBR, -offsetBR ) );
     painter->restore();
 }
 
