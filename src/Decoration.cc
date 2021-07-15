@@ -206,7 +206,7 @@ void Decoration::init()
     auto *decoratedClient = client().toStrongRef().data();
 
     auto repaintTitleBar = [this] {
-        update(titleBar());
+        update();
     };
 
     m_leftButtons = new KDecoration2::DecorationButtonGroup(
