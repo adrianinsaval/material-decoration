@@ -1111,9 +1111,12 @@ void Decoration::paintOutline(QPainter *painter, const QRect &repaintRegion) con
     Q_UNUSED(repaintRegion)
 
     const int penWidth = ceil(0.5*(settings()->smallSpacing()));
-    const int offsetTL = floor(penWidth*0.5);
-    const int offsetBR = ceil(penWidth*0.5);
-    // Simple 1px border outline
+    int offsetB, offsetR, offsetT, offsetL;
+    offsetB = bottomBorderVisible() ? ceil(penWidth*0.5) : -penWidth;
+    offsetR = rightBorderVisible() ? ceil(penWidth*0.5) : -penWidth;
+    offsetT = topBorderVisible() ? floor(penWidth*0.5) : -penWidth;
+    offsetL = leftBorderVisible() ? floor(penWidth*0.5) : -penWidth;
+
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setBrush(Qt::NoBrush);
@@ -1122,7 +1125,7 @@ void Decoration::paintOutline(QPainter *painter, const QRect &repaintRegion) con
     QPen outlinePen(outlineColor);
     outlinePen.setWidth(penWidth);
     painter->setPen(outlinePen);
-    painter->drawRect( rect().adjusted(offsetTL , offsetTL, -offsetBR, -offsetBR ) );
+    painter->drawRect( rect().adjusted(offsetL , offsetT, -offsetR, -offsetB ) );
     painter->restore();
 }
 
