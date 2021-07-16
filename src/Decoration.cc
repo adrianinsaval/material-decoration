@@ -50,6 +50,9 @@
 //C++
 #include <cmath>
 
+//KDE
+#include <KWindowInfo>
+
 namespace Material
 {
 
@@ -192,8 +195,10 @@ void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
     }
 
     paintTitleBarBackground(painter, repaintRegion);
-    paintButtons(painter, repaintRegion);
-    paintCaption(painter, repaintRegion);
+    if (titleBarIsVisible()){
+        paintButtons(painter, repaintRegion);
+        paintCaption(painter, repaintRegion);
+    }
 
     // Don't paint outline for NoBorder, NoSideBorder, or Tiny borders.
     // or the window is maximized
@@ -664,6 +669,7 @@ int Decoration::buttonPadding() const
 
 int Decoration::titleBarHeight() const
 {
+    if (!titleBarIsVisible()) return bottomBorderSize();
     const QFontMetrics fontMetrics(settings()->font());
     return buttonPadding()*2 + fontMetrics.height();
 }
@@ -741,6 +747,20 @@ bool Decoration::bottomBorderVisible() const {
 //         && !decoratedClient->adjacentScreenEdges().testFlag(Qt::BottomEdge)
 //         && !decoratedClient->isShaded();
     return true;
+}
+
+bool Decoration::titleBarIsVisible() const
+{
+    KWindowInfo info( client().toStrongRef().data()->windowId(), NET::WMIconName, NET::WM2WindowClass );
+    QString window_className( QString::fromUtf8(info.windowClassName()) );
+    QString window_class( QString::fromUtf8(info.windowClassClass()) );
+    if (window_class == "DesktopEditors"
+        || (window_class == "firefox" && window_className == "Navigator")){
+            return false;
+    } else {
+        return true;
+    }
+
 }
 
 bool Decoration::titleBarIsHovered() const
