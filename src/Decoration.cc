@@ -196,7 +196,9 @@ void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
     paintCaption(painter, repaintRegion);
 
     // Don't paint outline for NoBorder, NoSideBorder, or Tiny borders.
-    if (settings()->borderSize() >= KDecoration2::BorderSize::Normal) {
+    // or the window is maximized
+    if (settings()->borderSize() >= KDecoration2::BorderSize::Normal
+        && rect().width() != 1366 && rect().height() != 738 ){
         paintOutline(painter, repaintRegion);
     }
 }
@@ -716,25 +718,29 @@ int Decoration::sideBorderSize() const {
 }
 
 bool Decoration::Decoration::leftBorderVisible() const {
-    const auto *decoratedClient = client().toStrongRef().data();
-    return !decoratedClient->isMaximizedHorizontally()
-        && !decoratedClient->adjacentScreenEdges().testFlag(Qt::LeftEdge);
+//     const auto *decoratedClient = client().toStrongRef().data();
+//     return !decoratedClient->isMaximizedHorizontally()
+//         && !decoratedClient->adjacentScreenEdges().testFlag(Qt::LeftEdge);
+    return true;
 }
 bool Decoration::rightBorderVisible() const {
-    const auto *decoratedClient = client().toStrongRef().data();
-    return !decoratedClient->isMaximizedHorizontally()
-        && !decoratedClient->adjacentScreenEdges().testFlag(Qt::RightEdge);
+//     const auto *decoratedClient = client().toStrongRef().data();
+//     return !decoratedClient->isMaximizedHorizontally()
+//         && !decoratedClient->adjacentScreenEdges().testFlag(Qt::RightEdge);
+    return true;
 }
 bool Decoration::topBorderVisible() const {
-    const auto *decoratedClient = client().toStrongRef().data();
-    return !decoratedClient->isMaximizedVertically()
-        && !decoratedClient->adjacentScreenEdges().testFlag(Qt::TopEdge);
+//     const auto *decoratedClient = client().toStrongRef().data();
+//     return !decoratedClient->isMaximizedVertically()
+//         && !decoratedClient->adjacentScreenEdges().testFlag(Qt::TopEdge);
+    return true;
 }
 bool Decoration::bottomBorderVisible() const {
-    const auto *decoratedClient = client().toStrongRef().data();
-    return !decoratedClient->isMaximizedVertically()
-        && !decoratedClient->adjacentScreenEdges().testFlag(Qt::BottomEdge)
-        && !decoratedClient->isShaded();
+//     const auto *decoratedClient = client().toStrongRef().data();
+//     return !decoratedClient->isMaximizedVertically()
+//         && !decoratedClient->adjacentScreenEdges().testFlag(Qt::BottomEdge)
+//         && !decoratedClient->isShaded();
+    return true;
 }
 
 bool Decoration::titleBarIsHovered() const
@@ -1090,7 +1096,7 @@ void Decoration::paintOutline(QPainter *painter, const QRect &repaintRegion) con
 {
     Q_UNUSED(repaintRegion)
 
-    const int penWidth = ceil(0.5*(settings()->smallSpacing()));
+    const int penWidth = 2; //ceil(0.5*(settings()->smallSpacing()));
     int offsetB, offsetR, offsetT, offsetL;
     offsetB = bottomBorderVisible() ? ceil(penWidth*0.5) : -penWidth;
     offsetR = rightBorderVisible() ? ceil(penWidth*0.5) : -penWidth;
@@ -1101,7 +1107,7 @@ void Decoration::paintOutline(QPainter *painter, const QRect &repaintRegion) con
     painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setBrush(Qt::NoBrush);
     QColor outlineColor(borderColor());
-    outlineColor.setAlphaF(0.25);
+    //outlineColor.setAlphaF(0.25);
     QPen outlinePen(outlineColor);
     outlinePen.setWidth(penWidth);
     painter->setPen(outlinePen);
