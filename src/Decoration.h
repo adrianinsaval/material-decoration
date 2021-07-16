@@ -107,6 +107,7 @@ private:
     bool rightBorderVisible() const;
     bool topBorderVisible() const;
     bool bottomBorderVisible() const;
+    bool titleBarIsVisible() const;
 
     bool titleBarIsHovered() const;
     int getTextWidth(const QString text, bool showMnemonic = false) const;
