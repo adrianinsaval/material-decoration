@@ -203,7 +203,7 @@ void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
     // Don't paint outline for NoBorder, NoSideBorder, or Tiny borders.
     // or the window is maximized
     if (settings()->borderSize() >= KDecoration2::BorderSize::Normal
-        && rect().width() != 1366 && rect().height() != 738 ){
+        && (rect().width() != 1920 || rect().height() != 1044)){
         paintOutline(painter, repaintRegion);
     }
 }
